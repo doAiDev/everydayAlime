@@ -1,0 +1,23 @@
+name: Daily Brief
+
+on:
+  schedule:
+    - cron: '0 21 * * *'  # 매일 오전 6시 (KST = UTC+9, UTC 21:00)
+  workflow_dispatch:
+
+jobs:
+  daily-brief:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Daily Brief
+        run: |
+          echo "============================="
+          echo "  Daily Brief - $(date '+%Y-%m-%d')"
+          echo "============================="
+          echo ""
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Triggered at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
