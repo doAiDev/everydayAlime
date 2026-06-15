@@ -15,12 +15,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run Daily Brief
-        run: |
-          echo "============================="
-          echo "  Daily Brief - $(date '+%Y-%m-%d')"
-          echo "============================="
-          echo ""
-          echo "Repository: ${{ github.repository }}"
-          echo "Branch: ${{ github.ref_name }}"
-          echo "Triggered at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+      - name: Send Daily Brief Email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.GMAIL_USERNAME }}
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: "[Daily Brief] $(date '+%Y-%m-%d')"
+          to: dykim9911@gmail.com
+          from: ${{ secrets.GMAIL_USERNAME }}
+          body: |
+            안녕하세요!
+
+            오늘의 데일리 브리프입니다.
+
+            날짜: $(date '+%Y년 %m월 %d일')
+            시간: $(date '+%H시 %M분') (KST)
+
+            저장소: ${{ github.repository }}
+
+            좋은 하루 되세요!
